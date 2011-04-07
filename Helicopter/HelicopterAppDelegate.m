@@ -11,10 +11,35 @@
 @implementation HelicopterAppDelegate
 
 @synthesize window;
+@synthesize analysisView, captureView;
+
+- (void)dealloc
+{
+    [captureView release];
+    [analysisView release];
+    [locationFinder release];
+        
+    [super dealloc];
+}
+
+- (id) init {
+    self = [super init];
+    if (self) {
+        locationFinder = [[LocationFinder alloc] initWithDelegate:self];
+    }
+    return self;	
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Insert code here to initialize your application
+    [locationFinder setAnalysisView:analysisView];
+    [locationFinder setNormalView:captureView];
 }
+
+-(IBAction)toggleTracking:(id)sender {
+    [locationFinder toggleTracking];
+}
+
+
 
 @end
