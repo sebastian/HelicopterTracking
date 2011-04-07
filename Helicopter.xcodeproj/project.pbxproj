@@ -7,28 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		96572486134E1EE30041ECE3 /* LocationFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 96572485134E1EE30041ECE3 /* LocationFinder.m */; };
 		96D2D0CB134DEB280040720C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D2D0CA134DEB280040720C /* Cocoa.framework */; };
 		96D2D0D5134DEB280040720C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96D2D0D3134DEB280040720C /* InfoPlist.strings */; };
 		96D2D0D8134DEB280040720C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D2D0D7134DEB280040720C /* main.m */; };
 		96D2D0DB134DEB280040720C /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 96D2D0D9134DEB280040720C /* Credits.rtf */; };
 		96D2D0DE134DEB280040720C /* HelicopterAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D2D0DD134DEB280040720C /* HelicopterAppDelegate.m */; };
 		96D2D0E1134DEB280040720C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96D2D0DF134DEB280040720C /* MainMenu.xib */; };
+		96D2D0E8134DEB330040720C /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D2D0E7134DEB330040720C /* QTKit.framework */; };
+		96D2D0EA134DEB3A0040720C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D2D0E9134DEB3A0040720C /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		96572484134E1EE30041ECE3 /* LocationFinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationFinder.h; sourceTree = "<group>"; };
+		96572485134E1EE30041ECE3 /* LocationFinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationFinder.m; sourceTree = "<group>"; };
 		96D2D0C6134DEB280040720C /* Helicopter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Helicopter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96D2D0CA134DEB280040720C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		96D2D0CD134DEB280040720C /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		96D2D0CE134DEB280040720C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		96D2D0CF134DEB280040720C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		96D2D0D2134DEB280040720C /* Helicopter-Info.plist */ = {isa = PBXFileReference; path = "Helicopter-Info.plist"; sourceTree = "<group>"; };
+		96D2D0D2134DEB280040720C /* Helicopter-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Helicopter-Info.plist"; sourceTree = "<group>"; };
 		96D2D0D4134DEB280040720C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		96D2D0D6134DEB280040720C /* Helicopter-Prefix.pch */ = {isa = PBXFileReference; path = "Helicopter-Prefix.pch"; sourceTree = "<group>"; };
+		96D2D0D6134DEB280040720C /* Helicopter-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Helicopter-Prefix.pch"; sourceTree = "<group>"; };
 		96D2D0D7134DEB280040720C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		96D2D0DA134DEB280040720C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		96D2D0DC134DEB280040720C /* HelicopterAppDelegate.h */ = {isa = PBXFileReference; path = HelicopterAppDelegate.h; sourceTree = "<group>"; };
+		96D2D0DC134DEB280040720C /* HelicopterAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelicopterAppDelegate.h; sourceTree = "<group>"; };
 		96D2D0DD134DEB280040720C /* HelicopterAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelicopterAppDelegate.m; sourceTree = "<group>"; };
 		96D2D0E0134DEB280040720C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		96D2D0E7134DEB330040720C /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
+		96D2D0E9134DEB3A0040720C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +43,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96D2D0EA134DEB3A0040720C /* QuartzCore.framework in Frameworks */,
+				96D2D0E8134DEB330040720C /* QTKit.framework in Frameworks */,
 				96D2D0CB134DEB280040720C /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -46,6 +55,8 @@
 		96D2D0BB134DEB280040720C = {
 			isa = PBXGroup;
 			children = (
+				96D2D0E9134DEB3A0040720C /* QuartzCore.framework */,
+				96D2D0E7134DEB330040720C /* QTKit.framework */,
 				96D2D0D0134DEB280040720C /* Helicopter */,
 				96D2D0C9134DEB280040720C /* Frameworks */,
 				96D2D0C7134DEB280040720C /* Products */,
@@ -86,6 +97,8 @@
 				96D2D0DD134DEB280040720C /* HelicopterAppDelegate.m */,
 				96D2D0DF134DEB280040720C /* MainMenu.xib */,
 				96D2D0D1134DEB280040720C /* Supporting Files */,
+				96572484134E1EE30041ECE3 /* LocationFinder.h */,
+				96572485134E1EE30041ECE3 /* LocationFinder.m */,
 			);
 			path = Helicopter;
 			sourceTree = "<group>";
@@ -167,6 +180,7 @@
 			files = (
 				96D2D0D8134DEB280040720C /* main.m in Sources */,
 				96D2D0DE134DEB280040720C /* HelicopterAppDelegate.m in Sources */,
+				96572486134E1EE30041ECE3 /* LocationFinder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,6 +295,7 @@
 				96D2D0E6134DEB280040720C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
