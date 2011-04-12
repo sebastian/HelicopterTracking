@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9620178D1354C9B30067E14B /* HelicopterClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 962017881354C9B30067E14B /* HelicopterClient.m */; };
+		9620178E1354C9B30067E14B /* HelicopterServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9620178A1354C9B30067E14B /* HelicopterServer.m */; };
+		9620178F1354C9B30067E14B /* TCPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9620178C1354C9B30067E14B /* TCPServer.m */; };
 		96572486134E1EE30041ECE3 /* LocationFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 96572485134E1EE30041ECE3 /* LocationFinder.m */; };
 		96D2D0CB134DEB280040720C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D2D0CA134DEB280040720C /* Cocoa.framework */; };
 		96D2D0D5134DEB280040720C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96D2D0D3134DEB280040720C /* InfoPlist.strings */; };
@@ -19,6 +22,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		962017871354C9B30067E14B /* HelicopterClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelicopterClient.h; sourceTree = "<group>"; };
+		962017881354C9B30067E14B /* HelicopterClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelicopterClient.m; sourceTree = "<group>"; };
+		962017891354C9B30067E14B /* HelicopterServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelicopterServer.h; sourceTree = "<group>"; };
+		9620178A1354C9B30067E14B /* HelicopterServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelicopterServer.m; sourceTree = "<group>"; };
+		9620178B1354C9B30067E14B /* TCPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPServer.h; sourceTree = "<group>"; };
+		9620178C1354C9B30067E14B /* TCPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCPServer.m; sourceTree = "<group>"; };
 		96572484134E1EE30041ECE3 /* LocationFinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationFinder.h; sourceTree = "<group>"; };
 		96572485134E1EE30041ECE3 /* LocationFinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationFinder.m; sourceTree = "<group>"; };
 		96D2D0C6134DEB280040720C /* Helicopter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Helicopter.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +61,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		962017911354C9E10067E14B /* Communication */ = {
+			isa = PBXGroup;
+			children = (
+				962017871354C9B30067E14B /* HelicopterClient.h */,
+				962017881354C9B30067E14B /* HelicopterClient.m */,
+				962017891354C9B30067E14B /* HelicopterServer.h */,
+				9620178A1354C9B30067E14B /* HelicopterServer.m */,
+				9620178B1354C9B30067E14B /* TCPServer.h */,
+				9620178C1354C9B30067E14B /* TCPServer.m */,
+			);
+			name = Communication;
+			sourceTree = "<group>";
+		};
+		962017921354C9F50067E14B /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				96572484134E1EE30041ECE3 /* LocationFinder.h */,
+				96572485134E1EE30041ECE3 /* LocationFinder.m */,
+			);
+			name = Location;
+			sourceTree = "<group>";
+		};
 		96D2D0BB134DEB280040720C = {
 			isa = PBXGroup;
 			children = (
@@ -93,12 +124,12 @@
 		96D2D0D0134DEB280040720C /* Helicopter */ = {
 			isa = PBXGroup;
 			children = (
+				962017921354C9F50067E14B /* Location */,
+				962017911354C9E10067E14B /* Communication */,
 				96D2D0DC134DEB280040720C /* HelicopterAppDelegate.h */,
 				96D2D0DD134DEB280040720C /* HelicopterAppDelegate.m */,
 				96D2D0DF134DEB280040720C /* MainMenu.xib */,
 				96D2D0D1134DEB280040720C /* Supporting Files */,
-				96572484134E1EE30041ECE3 /* LocationFinder.h */,
-				96572485134E1EE30041ECE3 /* LocationFinder.m */,
 			);
 			path = Helicopter;
 			sourceTree = "<group>";
@@ -181,6 +212,9 @@
 				96D2D0D8134DEB280040720C /* main.m in Sources */,
 				96D2D0DE134DEB280040720C /* HelicopterAppDelegate.m in Sources */,
 				96572486134E1EE30041ECE3 /* LocationFinder.m in Sources */,
+				9620178D1354C9B30067E14B /* HelicopterClient.m in Sources */,
+				9620178E1354C9B30067E14B /* HelicopterServer.m in Sources */,
+				9620178F1354C9B30067E14B /* TCPServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
