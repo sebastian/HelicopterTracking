@@ -9,6 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <QTKit/QTKit.h>
 
+@protocol LocationFinderDelegate
+@required
+-(void)newLocationWithX:(long)x andY:(long)y;
+@end
+
 @interface LocationFinder : NSObject {
     // Shows live video feed
     QTCaptureView *normalView;
@@ -22,20 +27,21 @@
     
     // Stores the most recent camera image
     CVImageBufferRef mCurrentImageBuffer;
+    CVImageBufferRef mPreviousImageBuffer;
     
     int locationX, locationY;
     bool isTracking;
     bool isAnalysing;
     
     size_t bytesPerRow;
-    int bytesPerPixel;
+    int bytesPerPixelInInput, bytesPerPixelInOutput;
     int boundary;
     
-    id _delegate;
+    id <LocationFinderDelegate> _delegate;
     CGSize size;
 }
 
-@property (assign) IBOutlet id delegate;
+@property (assign) IBOutlet id <LocationFinderDelegate> delegate;
 @property (assign) IBOutlet QTCaptureView *normalView;
 @property (assign) IBOutlet NSImageCell *analysisView;
 

@@ -8,8 +8,11 @@
 
 #import "LocationFinder.h"
 
+#define MIN_NUMBER_OF_POINTS 50
 
 @implementation LocationFinder
+
+enum pixelComponents { alpha, red, green, blue };
 
 @synthesize normalView, analysisView;
 @synthesize delegate;
@@ -21,7 +24,8 @@
         isTracking = NO;
         isAnalysing = NO;
         
-        bytesPerPixel = 4;
+        bytesPerPixelInInput = 2;
+        bytesPerPixelInOutput = 4;
         
         // The boundary determines how many pixels
         // are used to check for a dot at each side of
@@ -112,160 +116,161 @@
     }
 }
 
--(int)minLocation:(int)a {
-    if ((a - boundary) < 0) {
-        return 0;
-    }
-    return a - boundary;
-}
-
--(int)maxLocation:(int)a forMax:(int)b {
-    if ((a + boundary) >= b) {
-        return b - 1;
-    }
-    return a + boundary;
-}
-
--(BOOL)isActivePointInData:(u_int8_t*)data atX:(int)x andY:(int)y {
-    uint8 activeThreshold = 254 * 0.40;
-    int valid_points = 0;
-    int red, blue, green, magic;
-    size_t index;
-    for (int xd = [self minLocation:x]; xd < [self maxLocation:x forMax:size.width]; xd++){
-        for (int yd = [self minLocation:y]; yd < [self maxLocation:y forMax:size.height]; yd++){
-            index = bytesPerRow * yd + bytesPerPixel * xd;
-            red = data[index];
-            green = data[index+1];
-            blue = data[index+2];
-            magic = data[index+3];
-            if (x == 10 & y == 10) { 
-                NSLog(@"rgb? : %i %i %i %i", red, green, blue, magic);
-                return YES;
-            }
-            if (red > activeThreshold && blue > activeThreshold && green > activeThreshold && magic > activeThreshold) {
-                valid_points++;
-            }
-        }
-    }
-    return valid_points > (boundary * boundary) * 0.8;
-}
-
--(void)setHighlight:(BOOL)highlight
-             inData:(uint8_t*)data 
-          forPixelX:(int)x 
-               andY:(int)y 
+- (BOOL) differentAtX:(int)x 
+                 andY:(int)y 
+              between:(unsigned char *)image1 
+                  and:(unsigned char *)image2 
 {
-    uint8 white = 254, black = 0;
-    for (int xx = [self minLocation:x]; xx < [self maxLocation:x forMax:size.width]; xx++) {
-        for (int yy = [self minLocation:y]; yy < [self maxLocation:y forMax:size.height]; yy++) {
-            size_t index = bytesPerRow * yy + bytesPerPixel * xx;
-            if (NO) {
-                data[index] = white;
-                data[index + 1] = white;
-                data[index + 2] = white;
-                data[index + 3] = white;
-            } else {
-                data[index] = black; // GREEN?
-                data[index + 1] = black; // B
-                data[index + 2] = black; // G
-                data[index + 3] = black; // R
-            }
-            
+    int a1, a2, b1, b2, c1, c2, d1, d2, a, b, c, d;
+    size_t index = bytesPerRow * y + bytesPerPixelInInput * x;
+    a1 = image1[index]; a2 = image2[index];
+    b1 = image1[index + 1]; b2 = image2[index + 1];
+    c1 = image1[index + 2]; c2 = image2[index + 2];
+    d1 = image1[index + 3]; d2 = image2[index + 3];
+    a = abs(a1 - a2);
+    b = abs(b1 - b2);
+    c = abs(c1 - c2);
+    d = abs(d1 - d2);
+    
+    unsigned char threshold = 20;
+    uint8 over_threshold = 0; 
+    if (a > threshold) {over_threshold++;}
+    if (b > threshold) {over_threshold++;}
+    if (c > threshold) {over_threshold++;}
+    if (d > threshold) {over_threshold++;}
+    return over_threshold >= 2;
+}
+
+-(void)highlight:(BOOL)highlight withAlternateColor:(BOOL)altColor
+        pixelAtX:(int)x 
+            andY:(int)y 
+           inPad:(unsigned char *)pad
+{
+    if (x < 0 || y < 0) {return;}
+    
+    size_t index = bytesPerRow * 2 * y + bytesPerPixelInOutput * x;
+    unsigned char on = 0, off = 255;
+    if (highlight) {
+        pad[index + red] = on;
+        pad[index + green] = on;
+        pad[index + blue] = on;
+        pad[index + alpha] = 255;
+        if (altColor) {
+            pad[index + red] = off;
         }
+    } else {
+        pad[index + alpha] = 0;
+        pad[index + red] = off;
+        pad[index + green] = off;
+        pad[index + blue] = off;
+    }
+}
+-(void)highlight:(BOOL)highlight pixelAtX:(int)x andY:(int)y inPad:(unsigned char *)pad {
+    [self highlight:highlight withAlternateColor:NO pixelAtX:x andY:y inPad:pad];
+}
+
+-(void)fillCurrentRegionInScratchPad:(unsigned char*)pad
+{
+    if (locationX >= 0 && locationY >= 0) {
+        int minX, minY, maxX, maxY;
+        minX = locationX > 10 ? locationX - 10 : locationX;
+        maxX = locationX + 10 > size.width ? size.width : locationX + 10;
+        minY = locationY > 10 ? locationY - 10 : locationY;
+        maxY = locationY + 10 > size.height ? size.height : locationY + 10;
+        for (int x = minX; x < maxX; x++) { for (int y = minY; y < maxY; y++) {
+            [self highlight:YES pixelAtX:x andY:y inPad:pad];  
+        }}
     }
 }
 
--(void)relocateObjectIn:(uint8_t*)imageData 
-      withReferenceData:(uint8_t*)reference
+-(void)findDifferenceIn:(unsigned char *)image1 
+                   from:(unsigned char *)image2 
+         withScratchpad:(unsigned char *)scratchpad
 {
-    NSLog(@"relocating");
-    // This is just for visual joy... Mark all areas as not found
-    for (int x = 0; x < size.width; x++) {
-        for (int y = 0; y < size.height; y++) {
-            [self setHighlight:NO inData:imageData forPixelX:x andY:y];
-        }
+    long sumX = 0, sumY = 0, countPoints = 1;
+    
+    // Set the tracking bounds conditionally on if we are currently
+    // tracking an object or not. This in order to speed things up.
+    int minX, maxX, minY, maxY;
+    if (isTracking) {
+        int tracking_area = size.height * 0.3;
+        minX = locationX - tracking_area < 0 ? 0 : locationX - tracking_area;
+        maxX = locationX + tracking_area >= size.width ? size.width - 1 : locationX + tracking_area;
+        minY = locationY - tracking_area < 0 ? 0 : locationY - tracking_area;
+        maxY = locationY + tracking_area >= size.height ? size.height - 1 : locationY + tracking_area;
+    } else {
+        minX = 0; maxX = size.width - 1;
+        minY = 0; maxY = size.height - 1;
     }
-    BOOL hasFoundDot = NO;
-    // Iterate over a region to find helicopter
-    for (int x = [self minLocation:locationX]; x < [self maxLocation:locationX forMax:size.width]; x++) {
-        for (int y = [self minLocation:locationY]; y < [self maxLocation:locationY forMax:size.height]; y++) {
-            BOOL isActive = [self isActivePointInData:reference atX:x andY:y];
-            if (isActive) {
-                hasFoundDot = YES;
-                locationX = x;
-                locationY = y;
-            }
-            [self setHighlight:isActive inData:imageData forPixelX:x andY:y];
-        }
-    }
-    isTracking = hasFoundDot;
-}
-
--(void)locateObjectIn:(uint8_t*)imageData 
-    withReferenceData:(uint8_t*)reference
-{
-    NSLog(@"locating");
+    
     // Iterate over it to find helicopter
-    for (int x = boundary; x < size.width - boundary; x++) {
-        for (int y = boundary; y < size.height - boundary; y++) {
-            BOOL isActive = [self isActivePointInData:reference atX:x andY:y];
-            if (isActive) {
-                isTracking = YES;
-                locationX = x;
-                locationY = y;
+    for (int x = minX; x < maxX; x++) {
+        for (int y = minY; y < maxY; y++) {
+            BOOL isDifferent = [self differentAtX:x andY:y between:image1 and:image2];
+            if (isDifferent) {
+                sumX += x, sumY += y;
+                countPoints++;
             }
-            [self setHighlight: isActive inData:imageData forPixelX:x andY:y];
+            [self highlight:isDifferent withAlternateColor:YES pixelAtX:x andY:y inPad:scratchpad];
         }
     }
+    if (countPoints > MIN_NUMBER_OF_POINTS) {
+        isTracking = YES;
+        locationX = (int) (sumX / countPoints);
+        locationY = (int) (sumY / countPoints);
+        [self fillCurrentRegionInScratchPad:scratchpad];
+    } else {
+        isTracking = NO;
+        locationX = -1; locationY = -1;
+    }
+    [_delegate newLocationWithX:locationX andY:locationY];
 }
 
 -(void)analysePicture {
-    CVImageBufferRef imageBuffer;
+    CVImageBufferRef currentImageBuffer, previousImageBuffer;
     @synchronized (self) {
-        imageBuffer = CVBufferRetain(mCurrentImageBuffer);
+        currentImageBuffer = CVBufferRetain(mCurrentImageBuffer);
+        previousImageBuffer = CVBufferRetain(mPreviousImageBuffer);
     }
     
-    if (imageBuffer) {
-        bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
+    if (currentImageBuffer && previousImageBuffer) {
+        // Setup
+        bytesPerRow = CVPixelBufferGetBytesPerRow(currentImageBuffer);
+        size = CVImageBufferGetDisplaySize(currentImageBuffer);
         
-        size = CVImageBufferGetDisplaySize(imageBuffer);
-                
+        unsigned char * currentImageData, * previousImageData, * padData;
+        
         // Get the raw image data
-        CVPixelBufferLockBaseAddress(imageBuffer, 0);
-        uint8_t *imageData = (uint8_t *)CVPixelBufferGetBaseAddress(imageBuffer);
-        CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
-
-        // Make a copy used for reference that we don't change
-        int copyAmount = bytesPerRow * size.height;
-        uint8_t *referenceData = malloc(copyAmount);
-        memcpy(referenceData, imageData, copyAmount);
+        CVPixelBufferLockBaseAddress(currentImageBuffer, 0);
+        currentImageData = (unsigned char *)CVPixelBufferGetBaseAddress(currentImageBuffer);
+        CVPixelBufferUnlockBaseAddress(currentImageBuffer, 0);
         
-        //if (isTracking) {
-        if (NO) {
-            [self relocateObjectIn:imageData withReferenceData:referenceData];
-        } else {
-            [self locateObjectIn:imageData withReferenceData:referenceData];
-        }
-        free(referenceData);
-        
-        // Create an NSImage and add it to the movie
-        NSCIImageRep *imageRep = [NSCIImageRep imageRepWithCIImage:[CIImage imageWithCVImageBuffer:imageBuffer]];
+        CVPixelBufferLockBaseAddress(previousImageBuffer, 0);
+        previousImageData = (unsigned char *)CVPixelBufferGetBaseAddress(previousImageBuffer);
+        CVPixelBufferUnlockBaseAddress(previousImageBuffer, 0);        
+                
+        CVPixelBufferRef output;
+        CVPixelBufferCreate (NULL, size.width, size.height, k32ARGBPixelFormat, NULL, &output);
+        CVPixelBufferLockBaseAddress(output, 0);
+        padData = (unsigned char *)CVPixelBufferGetBaseAddress(output);
+        CVPixelBufferUnlockBaseAddress(output, 0);        
+                
+        [self findDifferenceIn:currentImageData from:previousImageData withScratchpad:padData];
+    
+        NSCIImageRep *imageRep = [NSCIImageRep imageRepWithCIImage:[[CIImage alloc] initWithCVImageBuffer:output]];
         NSImage *image = [[NSImage alloc] initWithSize:[imageRep size]];
         [image addRepresentation:imageRep];
         
-        
-        CVBufferRelease(imageBuffer);
+        CVBufferRelease(currentImageBuffer);
+        CVBufferRelease(previousImageBuffer);
+        CVBufferRelease(output);
         [analysisView setImage:image];
-        [image release];
     }    
 }
 
 - (void) analysisRunner:(id)_ignore {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    while (YES) {
-        if (!isAnalysing) {
-            break;
-        }
+    while (isAnalysing) {
         [self analysePicture];
         // sleep(1);
     }
@@ -277,10 +282,12 @@
      withSampleBuffer:(QTSampleBuffer *)sampleBuffer 
        fromConnection:(QTCaptureConnection *)connection
 {
+    // We keep two image buffers so that we can compare for changes
     CVImageBufferRef imageBufferToRelease;
     CVBufferRetain(videoFrame);
     @synchronized (self) {
-        imageBufferToRelease = mCurrentImageBuffer;
+        imageBufferToRelease = mPreviousImageBuffer;
+        mPreviousImageBuffer = mCurrentImageBuffer;
         mCurrentImageBuffer = videoFrame;
     }
     CVBufferRelease(imageBufferToRelease);
