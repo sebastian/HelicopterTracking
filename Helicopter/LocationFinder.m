@@ -90,13 +90,13 @@ enum pixelComponents { alpha, red, green, blue };
         
         // Preview the video from the session in the document
         [normalView setCaptureSession:mCaptureSession];
+        
+        // Start the session
+        [mCaptureSession startRunning];
     }
     
     NSLog(@"is starting tracking");
     isAnalysing = YES;
-    
-    // Start the session
-    [mCaptureSession startRunning];
     
     [NSThread detachNewThreadSelector:@selector(analysisRunner:) toTarget:self withObject:nil];
 }
@@ -104,7 +104,6 @@ enum pixelComponents { alpha, red, green, blue };
 -(void)stopLocating {
     isAnalysing = NO;
     NSLog(@"is stopping tracking");
-    [mCaptureSession stopRunning];
 }
 
 -(void)toggleTracking {

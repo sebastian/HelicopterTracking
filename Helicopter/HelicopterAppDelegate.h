@@ -14,10 +14,13 @@
 #import "HelicopterClient.h"
 #import "HelicopterServer.h"
 
-@interface HelicopterAppDelegate : NSObject <NSApplicationDelegate, LocationFinderDelegate, HelicopterServerDelegate> {
+@interface HelicopterAppDelegate : NSObject <NSApplicationDelegate, LocationFinderDelegate, HelicopterServerDelegate, HelicopterClientDelegate> {
 @private
     NSWindow *window;
-    NSTextField * position;
+    NSTextField * lblSelfPosition;
+    NSTextField * lblClientPosition;
+    NSTextField * lblStatus;
+    NSButton * btnStartServer;
 
     // Shows live video feed
     QTCaptureView *captureView;
@@ -33,12 +36,18 @@
     HelicopterClient * helicopterClient;
     
     int clientX, clientY, selfX, selfY;
+    
+    BOOL isServer;
+    BOOL isTracking;
 }
 
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet QTCaptureView *captureView;
 @property (assign) IBOutlet NSImageCell *analysisView;
-@property (assign) IBOutlet NSTextField *position;
+@property (assign) IBOutlet NSTextField *lblSelfPosition;
+@property (assign) IBOutlet NSTextField *lblClientPosition;
+@property (assign) IBOutlet NSTextField *lblStatus;
+@property (assign) IBOutlet NSButton *btnStartServer;
 
 -(IBAction)toggleTracking:(id)sender;
 -(IBAction)becomeServer:(id)sender;

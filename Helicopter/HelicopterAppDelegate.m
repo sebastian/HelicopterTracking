@@ -11,7 +11,8 @@
 @implementation HelicopterAppDelegate
 
 @synthesize window;
-@synthesize analysisView, captureView, position;
+@synthesize analysisView, captureView;
+@synthesize lblSelfPosition, lblClientPosition, lblStatus, btnStartServer;
 
 - (void)dealloc
 {
@@ -24,12 +25,31 @@
     [super dealloc];
 }
 
+- (void) updateStatus {
+    NSString * status;
+    if (isTracking) {
+        if (isServer) {
+            status = @"Is tracking as server";
+        } else {
+            status = @"Is tracking as client";
+        }
+    } else {
+        if (isServer) {
+            status = @"Currently not tracking. In server mode.";
+        } else {
+            status = @"Currently not tracking. In client mode.";
+        }        
+    }
+    [lblStatus setTitleWithMnemonic:status];
+}
+
 - (id) init {
     self = [super init];
     if (self) {
         locationFinder = [[LocationFinder alloc] initWithDelegate:self];
 
         helicopterClient = [[HelicopterClient alloc] init];
+        [helicopterClient setClientDelegate:self];
         helicopterServer = [[HelicopterServer alloc] init];
         [helicopterServer setHelicopterDelegate:self];
         
@@ -37,6 +57,9 @@
         clientY = 0;
         selfX = 0;
         selfY = 0;
+        
+        isServer = NO;
+        isTracking = NO;
     }
     return self;	
 }
@@ -45,10 +68,13 @@
 {
     [locationFinder setAnalysisView:analysisView];
     [locationFinder setNormalView:captureView];
+    [self updateStatus];
 }
 
 -(IBAction)toggleTracking:(id)sender {
     [locationFinder toggleTracking];
+    isTracking = !isTracking;
+    [self updateStatus];
 }
 
 -(void)newLocationWithX:(int)x andY:(int)y {
@@ -58,21 +84,38 @@
         selfPosition = @"Position unknown";        
     } else {
         selfX = x; selfY = y;
-        selfPosition = [NSString stringWithFormat:@"At position x: %i, y: %i", x, y];
-    }
-    NSString * mergedPosition = [NSString stringWithFormat:@"%@. Client position, x: %i, y: %i", selfPosition, clientX, clientY];
-    [position setTitleWithMnemonic:mergedPosition];
+        selfPosition = [NSString stringWithFormat:@"x: %i, y: %i", x, y];
+    };
+    [lblSelfPosition setTitleWithMnemonic:selfPosition];
 }
 
 -(void)becomeServer:(id)sender {
+    // If we want to become a server, then we can't also be a client
+    [helicopterClient stopLooking];
+    // Start the helicopter location server
     [helicopterServer startServer];
+    [btnStartServer setEnabled:NO];
+    isServer = YES;
+    [self updateStatus];
 }
 
 //////////////////////////////////////////////////////////////////////
 // HelicopterServerDelegate
 - (void)clientUpdatesX:(int)x andY:(int)y {
-    clientX = x;
-    clientY = y;
+    NSString * clientPosition;
+    if (x < 0 && y < 0) {
+        clientPosition = @"Position unknown";        
+    } else {
+        clientX = x; clientY = y;
+        clientPosition = [NSString stringWithFormat:@"x: %i, y: %i", x, y];
+    };
+    [lblClientPosition setTitleWithMnemonic:clientPosition];
+}
+
+//////////////////////////////////////////////////////////////////////
+// HelicopterClientDelegate
+- (void)clientFoundServer {
+    [btnStartServer setEnabled:NO];
 }
 
 @end
