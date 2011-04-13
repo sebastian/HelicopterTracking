@@ -259,7 +259,6 @@ enum pixelComponents { alpha, red, green, blue };
     NSCIImageRep *imageRep = [NSCIImageRep imageRepWithCIImage:cimage];
     [cimage release];
     NSImage *image = [[NSImage alloc] initWithSize:[imageRep size]];
-    [imageRep release];
     [image addRepresentation:imageRep];
     
     CVBufferRelease(currentImageBuffer);
