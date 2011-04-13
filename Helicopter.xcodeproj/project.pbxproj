@@ -11,8 +11,8 @@
 		9620178E1354C9B30067E14B /* HelicopterServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9620178A1354C9B30067E14B /* HelicopterServer.m */; };
 		9620178F1354C9B30067E14B /* TCPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9620178C1354C9B30067E14B /* TCPServer.m */; };
 		962017951354DBC80067E14B /* FileWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 962017941354DBC80067E14B /* FileWriter.m */; };
-		962017981354DD3C0067E14B /* CoordinatCalc.m in Sources */ = {isa = PBXBuildFile; fileRef = 962017971354DD3C0067E14B /* CoordinatCalc.m */; };
 		96572486134E1EE30041ECE3 /* LocationFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 96572485134E1EE30041ECE3 /* LocationFinder.m */; };
+		96BF11A81355EB520013C0DD /* CoordinateCalc.m in Sources */ = {isa = PBXBuildFile; fileRef = 96BF11A71355EB520013C0DD /* CoordinateCalc.m */; };
 		96D2D0CB134DEB280040720C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D2D0CA134DEB280040720C /* Cocoa.framework */; };
 		96D2D0D5134DEB280040720C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96D2D0D3134DEB280040720C /* InfoPlist.strings */; };
 		96D2D0D8134DEB280040720C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D2D0D7134DEB280040720C /* main.m */; };
@@ -32,10 +32,10 @@
 		9620178C1354C9B30067E14B /* TCPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCPServer.m; sourceTree = "<group>"; };
 		962017931354DBC80067E14B /* FileWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileWriter.h; sourceTree = "<group>"; };
 		962017941354DBC80067E14B /* FileWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileWriter.m; sourceTree = "<group>"; };
-		962017961354DD3C0067E14B /* CoordinatCalc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoordinatCalc.h; sourceTree = "<group>"; };
-		962017971354DD3C0067E14B /* CoordinatCalc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoordinatCalc.m; sourceTree = "<group>"; };
 		96572484134E1EE30041ECE3 /* LocationFinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationFinder.h; sourceTree = "<group>"; };
 		96572485134E1EE30041ECE3 /* LocationFinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationFinder.m; sourceTree = "<group>"; };
+		96BF11A61355EB520013C0DD /* CoordinateCalc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoordinateCalc.h; sourceTree = "<group>"; };
+		96BF11A71355EB520013C0DD /* CoordinateCalc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoordinateCalc.m; sourceTree = "<group>"; };
 		96D2D0C6134DEB280040720C /* Helicopter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Helicopter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96D2D0CA134DEB280040720C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		96D2D0CD134DEB280040720C /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -130,6 +130,8 @@
 		96D2D0D0134DEB280040720C /* Helicopter */ = {
 			isa = PBXGroup;
 			children = (
+				96BF11A61355EB520013C0DD /* CoordinateCalc.h */,
+				96BF11A71355EB520013C0DD /* CoordinateCalc.m */,
 				962017921354C9F50067E14B /* Location */,
 				962017911354C9E10067E14B /* Communication */,
 				96D2D0DC134DEB280040720C /* HelicopterAppDelegate.h */,
@@ -138,8 +140,6 @@
 				96D2D0D1134DEB280040720C /* Supporting Files */,
 				962017931354DBC80067E14B /* FileWriter.h */,
 				962017941354DBC80067E14B /* FileWriter.m */,
-				962017961354DD3C0067E14B /* CoordinatCalc.h */,
-				962017971354DD3C0067E14B /* CoordinatCalc.m */,
 			);
 			path = Helicopter;
 			sourceTree = "<group>";
@@ -226,7 +226,7 @@
 				9620178E1354C9B30067E14B /* HelicopterServer.m in Sources */,
 				9620178F1354C9B30067E14B /* TCPServer.m in Sources */,
 				962017951354DBC80067E14B /* FileWriter.m in Sources */,
-				962017981354DD3C0067E14B /* CoordinatCalc.m in Sources */,
+				96BF11A81355EB520013C0DD /* CoordinateCalc.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,6 +302,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Helicopter/Helicopter-Prefix.pch";
 				INFOPLIST_FILE = "Helicopter/Helicopter-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -317,6 +318,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Helicopter/Helicopter-Prefix.pch";
 				INFOPLIST_FILE = "Helicopter/Helicopter-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

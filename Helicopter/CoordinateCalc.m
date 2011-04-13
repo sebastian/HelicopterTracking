@@ -1,5 +1,5 @@
 //
-//  CoordinateCalc.m
+//  CoordinatCalc.m
 //  Helicopter
 //
 //  Created by Sebastian Probst Eide on 12.04.11.

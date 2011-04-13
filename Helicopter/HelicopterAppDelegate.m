@@ -21,8 +21,34 @@
     [locationFinder release];
     [bonjourClient release];
     [bonjourServer release];
+    [coordinateCalc release];
         
     [super dealloc];
+}
+
+- (id) init {
+    self = [super init];
+    if (self) {
+        locationFinder = [[LocationFinder alloc] initWithDelegate:self];
+        
+        helicopterClient = [[HelicopterClient alloc] init];
+        [helicopterClient setClientDelegate:self];
+        helicopterServer = [[HelicopterServer alloc] init];
+        [helicopterServer setHelicopterDelegate:self];
+        
+        coordinateCalc = [[CoordinateCalc alloc] init];
+        [coordinateCalc setImageWidth:640];
+        [coordinateCalc setImageHeight:480];
+        
+        clientX = 0;
+        clientY = 0;
+        selfX = 0;
+        selfY = 0;
+        
+        isServer = NO;
+        isTracking = NO;
+    }
+    return self;	
 }
 
 - (void) updateStatus {
@@ -41,27 +67,6 @@
         }        
     }
     [lblStatus setTitleWithMnemonic:status];
-}
-
-- (id) init {
-    self = [super init];
-    if (self) {
-        locationFinder = [[LocationFinder alloc] initWithDelegate:self];
-
-        helicopterClient = [[HelicopterClient alloc] init];
-        [helicopterClient setClientDelegate:self];
-        helicopterServer = [[HelicopterServer alloc] init];
-        [helicopterServer setHelicopterDelegate:self];
-        
-        clientX = 0;
-        clientY = 0;
-        selfX = 0;
-        selfY = 0;
-        
-        isServer = NO;
-        isTracking = NO;
-    }
-    return self;	
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -108,6 +113,9 @@
     } else {
         clientX = x; clientY = y;
         clientPosition = [NSString stringWithFormat:@"x: %i, y: %i", x, y];
+        
+        // Update the coordinate calc
+        [coordinateCalc setX:selfX y:selfY clientX:clientX clientY:clientY];
     };
     [lblClientPosition setTitleWithMnemonic:clientPosition];
 }

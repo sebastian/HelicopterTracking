@@ -37,13 +37,13 @@
     int bytesPerPixelInInput, bytesPerPixelInOutput;
     int boundary;
     
-    id <LocationFinderDelegate> _delegate;
+    id <LocationFinderDelegate> delegate;
     CGSize size;
 }
 
-@property (assign) IBOutlet id <LocationFinderDelegate> delegate;
-@property (assign) IBOutlet QTCaptureView *normalView;
-@property (assign) IBOutlet NSImageCell *analysisView;
+@property (assign) id <LocationFinderDelegate> delegate;
+@property (retain) IBOutlet QTCaptureView *normalView;
+@property (retain) IBOutlet NSImageCell *analysisView;
 
 -(void)startLocating;
 -(void)stopLocating;

@@ -13,6 +13,7 @@
 #import "BonjourServer.h"
 #import "HelicopterClient.h"
 #import "HelicopterServer.h"
+#import "CoordinateCalc.h"
 
 @interface HelicopterAppDelegate : NSObject <NSApplicationDelegate, LocationFinderDelegate, HelicopterServerDelegate, HelicopterClientDelegate> {
 @private
@@ -39,6 +40,8 @@
     
     BOOL isServer;
     BOOL isTracking;
+    
+    CoordinateCalc * coordinateCalc;
 }
 
 @property (assign) IBOutlet NSWindow *window;

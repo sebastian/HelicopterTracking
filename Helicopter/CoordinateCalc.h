@@ -1,5 +1,5 @@
 //
-//  CoordinatCalc.h
+//  CoordinateCalc.h
 //  Helicopter
 //
 //  Created by Sebastian Probst Eide on 12.04.11.
@@ -7,13 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FileWriter.h"
 
-
-@interface CoordinatCalc : NSObject {
-    int aX, aY, aZ;
-    int bX, bY, bZ;
-    
+@interface CoordinateCalc : NSObject {
+    double x, y, z;
     int imageWidth, imageHeight;
+    FileWriter * fileWriter;
 }
 
 @property (assign) int imageWidth;

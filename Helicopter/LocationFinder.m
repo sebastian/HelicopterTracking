@@ -38,7 +38,7 @@ enum pixelComponents { alpha, red, green, blue };
 - (id) initWithDelegate:(id)theDelegate {
     self = [self init];
     if (self) {
-        _delegate = theDelegate;
+        delegate = theDelegate;
     }
     return self;	
 }
@@ -48,7 +48,7 @@ enum pixelComponents { alpha, red, green, blue };
     [mCaptureSession release];
     [mCaptureDeviceInput release];
     [mCaptureOutput release];
-    
+
     [normalView release];
     [analysisView release];
     
@@ -222,7 +222,7 @@ enum pixelComponents { alpha, red, green, blue };
         isTracking = NO;
         locationX = -1; locationY = -1;
     }
-    [_delegate newLocationWithX:locationX andY:locationY];
+    [delegate newLocationWithX:locationX andY:locationY];
 }
 
 -(void)analysePicture {
