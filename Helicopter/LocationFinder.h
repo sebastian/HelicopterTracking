@@ -15,30 +15,30 @@
 @end
 
 @interface LocationFinder : NSObject {
-    // Shows live video feed
-    QTCaptureView *normalView;
-    
-    // Shows result of analysis
-    NSImageCell *analysisView;
-    
-    QTCaptureSession *mCaptureSession;
-    QTCaptureDeviceInput *mCaptureDeviceInput;
-    QTCaptureVideoPreviewOutput *mCaptureOutput;
-    
-    // Stores the most recent camera image
-    CVImageBufferRef mCurrentImageBuffer;
-    CVImageBufferRef mPreviousImageBuffer;
-    
-    int locationX, locationY;
-    bool isTracking;
-    bool isAnalysing;
-    
-    size_t bytesPerRow;
-    int bytesPerPixelInInput, bytesPerPixelInOutput;
-    int boundary;
-    
-    id <LocationFinderDelegate> delegate;
-    CGSize size;
+  // Shows live video feed
+  QTCaptureView *normalView;
+  
+  // Shows result of analysis
+  NSImageCell *analysisView;
+  
+  QTCaptureSession *mCaptureSession;
+  QTCaptureDeviceInput *mCaptureDeviceInput;
+  QTCaptureVideoPreviewOutput *mCaptureOutput;
+  
+  // Stores the most recent camera image
+  CVImageBufferRef mCurrentImageBuffer;
+  CVImageBufferRef mPreviousImageBuffer;
+  
+  int locationX, locationY;
+  bool isTracking;
+  bool isAnalysing;
+  
+  size_t bytesPerRow;
+  int bytesPerPixelInInput, bytesPerPixelInOutput;
+  int boundary;
+  
+  id <LocationFinderDelegate> delegate;
+  CGSize size;
 }
 
 @property (assign) id <LocationFinderDelegate> delegate;

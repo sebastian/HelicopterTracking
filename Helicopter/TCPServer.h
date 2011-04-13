@@ -41,7 +41,7 @@
  STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  
- Copyright © 2005 Apple Computer, Inc., All Rights Reserved
+ Copyright ï¿½ 2005 Apple Computer, Inc., All Rights Reserved
  */ 
 
 #import <Foundation/Foundation.h>
@@ -50,21 +50,21 @@
 NSString * const TCPServerErrorDomain;
 
 typedef enum {
-    kTCPServerCouldNotBindToIPv4Address = 1,
-    kTCPServerCouldNotBindToIPv6Address = 2,
-    kTCPServerNoSocketsAvailable = 3,
+  kTCPServerCouldNotBindToIPv4Address = 1,
+  kTCPServerCouldNotBindToIPv6Address = 2,
+  kTCPServerNoSocketsAvailable = 3,
 } TCPServerErrorCode;
 
 @interface TCPServer : NSObject {
 @private
-    id delegate;
-    NSString *domain;
-    NSString *name;
-    NSString *type;
-    uint16_t port;
-    CFSocketRef ipv4socket;
-    CFSocketRef ipv6socket;
-    NSNetService *netService;
+  id delegate;
+  NSString *domain;
+  NSString *name;
+  NSString *type;
+  uint16_t port;
+  CFSocketRef ipv4socket;
+  CFSocketRef ipv6socket;
+  NSNetService *netService;
 }
 
 - (id)delegate;

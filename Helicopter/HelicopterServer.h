@@ -8,15 +8,16 @@
 
 @interface HelicopterServer : TCPServer <NSStreamDelegate>
 {
-    id <HelicopterServerDelegate> helicopterDelegate;
-    CFMutableDictionaryRef connections;
-    BOOL running;
+  id <HelicopterServerDelegate> helicopterDelegate;
+  CFMutableDictionaryRef connections;
+  BOOL running;
 }
 
 @property (assign) id <HelicopterServerDelegate> helicopterDelegate;
 
-- (void)handleNewConnectionFromAddress:(NSData *)addr inputStream:(NSInputStream *)istr outputStream:(NSOutputStream *)ostr;
+- (void)handleNewConnectionFromAddress:(NSData *)addr 
+                           inputStream:(NSInputStream *)istr 
+                          outputStream:(NSOutputStream *)ostr;
 
-//- (void)startServer;
 - (void)startServer;
 @end

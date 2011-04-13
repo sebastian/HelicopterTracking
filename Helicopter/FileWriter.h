@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 @interface FileWriter : NSObject {
 }
 -(void)writeX:(int)x andY:(int)y andZ:(int)z;

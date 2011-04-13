@@ -10,9 +10,9 @@
 #import "FileWriter.h"
 
 @interface CoordinateCalc : NSObject {
-    double x, y, z;
-    int imageWidth, imageHeight;
-    FileWriter * fileWriter;
+  double x, y, z;
+  int imageWidth, imageHeight;
+  FileWriter * fileWriter;
 }
 
 @property (assign) int imageWidth;
